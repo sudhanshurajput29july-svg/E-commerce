@@ -1,5 +1,6 @@
 import Review from '../models/Review.js';
 import Product from '../models/Product.js';
+import Order from '../models/Order.js';
 
 // Helper to update average rating and number of reviews for a product
 const updateProductRatings = async (productId) => {
@@ -41,6 +42,19 @@ export const addProductReview = async (req, res) => {
 
     if (alreadyReviewed) {
       return res.status(400).json({ message: 'Product already reviewed by this user' });
+    }
+
+    // Verify that the user has a DELIVERED order containing this product
+    const hasDeliveredOrder = await Order.findOne({
+      user: req.user._id,
+      orderStatus: 'Delivered',
+      'orderItems.product': productId,
+    });
+
+    if (!hasDeliveredOrder) {
+      return res.status(400).json({
+        message: 'You can only review products that have been successfully delivered to you.'
+      });
     }
 
     const review = new Review({

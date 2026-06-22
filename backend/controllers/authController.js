@@ -99,7 +99,8 @@ export const forgotPassword = async (req, res) => {
 
     // In a real application, you would send an email here.
     // Since this is a local setup, we log it and send it in the API response for easy manual testing.
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    const frontendUrl = process.env.FRONTEND_URL || req.headers.origin || 'http://localhost:5173';
+    const resetUrl = `${frontendUrl}/reset-password/${resetToken}`;
     console.log(`\n--- PASSWORD RESET REQUEST ---`);
     console.log(`For: ${email}`);
     console.log(`Link: ${resetUrl}`);

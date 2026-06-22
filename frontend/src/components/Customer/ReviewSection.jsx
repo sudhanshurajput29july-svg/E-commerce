@@ -12,6 +12,9 @@ const ReviewSection = ({ productId, onReviewAdded }) => {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  
+  const [isEligible, setIsEligible] = useState(false);
+  const [checkingEligibility, setCheckingEligibility] = useState(true);
 
   const fetchReviews = async () => {
     try {
@@ -24,9 +27,31 @@ const ReviewSection = ({ productId, onReviewAdded }) => {
     }
   };
 
+  const checkEligibility = async () => {
+    if (!userInfo) {
+      setCheckingEligibility(false);
+      return;
+    }
+    try {
+      const res = await api.get('/orders/myorders');
+      const orders = res.data;
+      const hasDeliveredOrder = orders.some(
+        (order) =>
+          order.orderStatus === 'Delivered' &&
+          order.orderItems.some((item) => (item.product?._id || item.product) === productId)
+      );
+      setIsEligible(hasDeliveredOrder);
+    } catch (error) {
+      console.error('Error checking review eligibility:', error);
+    } finally {
+      setCheckingEligibility(false);
+    }
+  };
+
   useEffect(() => {
     fetchReviews();
-  }, [productId]);
+    checkEligibility();
+  }, [productId, userInfo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,7 +105,13 @@ const ReviewSection = ({ productId, onReviewAdded }) => {
         <div className="lg:col-span-1 bg-white p-6 rounded-2xl border border-slate-100 shadow-2xs dark:bg-slate-800 dark:border-slate-700 h-fit">
           <h4 className="text-sm font-bold text-slate-700 mb-4 dark:text-slate-200">Write a Review</h4>
           {userInfo ? (
-            userHasReviewed ? (
+            checkingEligibility ? (
+              <p className="text-xs text-slate-400">Checking eligibility...</p>
+            ) : !isEligible ? (
+              <p className="text-xs text-rose-500 bg-rose-50/50 p-3.5 rounded-xl border border-rose-100/50 dark:bg-rose-950/10 dark:border-rose-900/30">
+                You can only review this product after it has been successfully purchased and delivered to you.
+              </p>
+            ) : userHasReviewed ? (
               <p className="text-xs text-indigo-500 bg-indigo-50/50 p-3 rounded-lg dark:bg-indigo-950/20">
                 You have already submitted a review for this product.
               </p>
