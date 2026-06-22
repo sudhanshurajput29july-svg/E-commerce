@@ -41,4 +41,18 @@ api.interceptors.response.use(
   }
 );
 
+export const getImageUrl = (imagePath) => {
+  if (!imagePath) return '/uploads/placeholder.png';
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
+  }
+  // Ensure we don't duplicate leading slash
+  const path = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+  const backendBase = import.meta.env.DEV 
+    ? '' 
+    : (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'https://e-commerce-pxap.onrender.com');
+  
+  return `${backendBase}${path}`;
+};
+
 export default api;

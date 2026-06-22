@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ShoppingCart, Heart, Star, CheckCircle, AlertTriangle, ArrowLeft } from 'lucide-react';
-import api from '../../services/api.js';
+import api, { getImageUrl } from '../../services/api.js';
 import { setCart } from '../../redux/cartSlice.js';
 import { setWishlist } from '../../redux/wishlistSlice.js';
 import ReviewSection from '../../components/Customer/ReviewSection.jsx';
@@ -122,7 +122,7 @@ const ProductDetails = () => {
         <div className="space-y-4">
           <div className="bg-white rounded-3xl border border-slate-100 overflow-hidden aspect-square dark:bg-slate-800 dark:border-slate-700/60">
             <img
-              src={activeImage}
+              src={getImageUrl(activeImage)}
               alt={product.name}
               className="w-full h-full object-cover"
             />
@@ -138,7 +138,7 @@ const ProductDetails = () => {
                     activeImage === img ? 'border-indigo-600' : 'border-transparent hover:border-slate-200'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img src={getImageUrl(img)} alt="" className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>

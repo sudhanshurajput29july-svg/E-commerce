@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ShoppingCart, Heart, Star } from 'lucide-react';
-import api from '../../services/api.js';
+import api, { getImageUrl } from '../../services/api.js';
 import { setCart } from '../../redux/cartSlice.js';
 import { setWishlist } from '../../redux/wishlistSlice.js';
 import { toast } from 'react-toastify';
@@ -79,7 +79,7 @@ const ProductCard = ({ product }) => {
       {/* Product Image Link */}
       <Link to={`/product/${product._id}`} className="block relative overflow-hidden aspect-square">
         <img
-          src={product.images[0] || '/uploads/placeholder.png'}
+          src={getImageUrl(product.images[0])}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />

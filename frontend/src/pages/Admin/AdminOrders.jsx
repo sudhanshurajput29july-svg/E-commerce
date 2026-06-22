@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Edit, Calendar, Info, RefreshCw } from 'lucide-react';
-import api from '../../services/api.js';
+import api, { getImageUrl } from '../../services/api.js';
 import { toast } from 'react-toastify';
 
 const AdminOrders = () => {
@@ -90,7 +90,7 @@ const AdminOrders = () => {
                       <div className="flex flex-wrap items-center gap-1.5 mb-2">
                         {order.orderItems.map((item) => (
                           <div key={item._id} className="group relative h-9 w-9 rounded-lg overflow-hidden bg-slate-50 dark:bg-slate-905 flex-shrink-0 border border-slate-100 dark:border-slate-700/60 shadow-2xs">
-                            <img src={item.image || '/uploads/placeholder.png'} alt={item.name} className="w-full h-full object-cover" />
+                            <img src={getImageUrl(item.image)} alt={item.name} className="w-full h-full object-cover" />
                             <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[9px] px-1.5 py-0.5 rounded shadow-sm opacity-0 group-hover:opacity-100 transition whitespace-nowrap z-50 mb-1 font-semibold dark:bg-slate-700">
                               {item.quantity}x {item.name}
                             </span>

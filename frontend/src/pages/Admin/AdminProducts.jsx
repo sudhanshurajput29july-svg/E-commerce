@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, Plus, Edit, Trash2, X, UploadCloud, CheckCircle } from 'lucide-react';
-import api from '../../services/api.js';
+import api, { getImageUrl } from '../../services/api.js';
 import { toast } from 'react-toastify';
 
 const AdminProducts = () => {
@@ -196,7 +196,7 @@ const AdminProducts = () => {
                   <tr key={prod._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 transition">
                     <td className="p-4 flex items-center space-x-3">
                       <div className="h-10 w-10 rounded-lg overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0">
-                        <img src={prod.images?.[0] || '/uploads/placeholder.png'} alt="" className="w-full h-full object-cover" />
+                        <img src={getImageUrl(prod.images?.[0])} alt="" className="w-full h-full object-cover" />
                       </div>
                       <div>
                         <span className="font-bold text-slate-800 block dark:text-slate-100">{prod.name}</span>
@@ -367,7 +367,7 @@ const AdminProducts = () => {
                     <div className="flex space-x-2 overflow-x-auto pb-1">
                       {existingImages.map((img, idx) => (
                         <div key={idx} className="relative h-16 w-16 border rounded-lg overflow-hidden flex-shrink-0">
-                          <img src={img} alt="" className="w-full h-full object-cover" />
+                          <img src={getImageUrl(img)} alt="" className="w-full h-full object-cover" />
                           <button
                             type="button"
                             onClick={() => handleDeleteExistingImage(img)}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
-import api from '../../services/api.js';
+import api, { getImageUrl } from '../../services/api.js';
 import { setCart } from '../../redux/cartSlice.js';
 import { toast } from 'react-toastify';
 
@@ -88,7 +88,7 @@ const Cart = () => {
                 <div className="flex items-center space-x-4">
                   <div className="h-16 w-16 rounded-xl overflow-hidden bg-slate-50 flex-shrink-0 dark:bg-slate-900">
                     <img
-                      src={product.images?.[0] || '/uploads/placeholder.png'}
+                      src={getImageUrl(product.images?.[0])}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />

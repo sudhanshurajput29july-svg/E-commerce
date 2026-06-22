@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ClipboardList, MapPin, CreditCard, ChevronRight, CheckCircle, PackageOpen, Award, ArrowLeft, Calendar, Info } from 'lucide-react';
-import api from '../../services/api.js';
+import api, { getImageUrl } from '../../services/api.js';
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -190,7 +190,7 @@ const OrderDetails = () => {
             <div key={item._id} className="flex justify-between items-center text-xs gap-4">
               <div className="flex items-center space-x-3">
                 <div className="h-12 w-12 rounded-lg bg-slate-50 overflow-hidden flex-shrink-0 dark:bg-slate-900">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  <img src={getImageUrl(item.image)} alt={item.name} className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <Link to={`/product/${item.product}`} className="font-bold text-slate-800 hover:text-indigo-600 transition dark:text-slate-100 dark:hover:text-indigo-400">{item.name}</Link>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Eye, Calendar, IndianRupee, Award } from 'lucide-react';
-import api from '../../services/api.js';
+import api, { getImageUrl } from '../../services/api.js';
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
@@ -104,7 +104,7 @@ const OrderHistory = () => {
               {order.orderItems.map((item) => (
                 <div key={item._id || item.product} className="flex items-center space-x-3 text-xs">
                   <img 
-                    src={item.image || '/uploads/placeholder.png'} 
+                    src={getImageUrl(item.image)} 
                     alt={item.name} 
                     className="w-12 h-12 object-cover rounded-xl border border-slate-150 dark:border-slate-700"
                   />
